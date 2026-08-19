@@ -1,0 +1,1393 @@
+/* login page  */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+    margin:0;
+    padding:0;
+}
+
+.login-container{
+    width:100%;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background: linear-gradient(135deg,#4c1d95,#7c3aed,#c084fc);
+    position:relative;
+    overflow:hidden;
+}
+
+/* Background Glass Circles */
+
+.login-container::before{
+    content:"";
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    top:-100px;
+    left:-80px;
+    filter:blur(10px);
+}
+
+.login-container::after{
+    content:"";
+    position:absolute;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    background:rgba(255,255,255,.12);
+    bottom:-80px;
+    right:-60px;
+    filter:blur(10px);
+}
+
+/* Glass Card */
+
+.login-box{
+    position:relative;
+    width:420px;
+    padding:45px;
+    border-radius:25px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,.25);
+    box-shadow:0 20px 45px rgba(0,0,0,.35);
+    z-index:2;
+}
+
+.login-box h2{
+    color:#fff;
+    text-align:center;
+    margin-bottom:30px;
+    font-size:34px;
+}
+
+.login-box form{
+    display:flex;
+    flex-direction:column;
+}
+
+.login-box input{
+    width:100%;
+    padding:15px;
+    margin-bottom:18px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:rgba(255,255,255,.20);
+    color:#fff;
+    font-size:15px;
+    border:1px solid rgba(255,255,255,.25);
+}
+
+.login-box input::placeholder{
+    color:#f1f5f9;
+}
+
+.login-box input:focus{
+    background:rgba(255,255,255,.28);
+    box-shadow:0 0 10px rgba(255,255,255,.25);
+}
+
+.login-box button{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(90deg,#ff9a00,#ffcc00);
+    color:#222;
+    font-size:17px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.login-box button:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 25px rgba(255,204,0,.45);
+}
+
+.links{
+    margin-top:20px;
+    display:flex;
+    justify-content:space-between;
+}
+
+.links a{
+    color:#fff;
+    text-decoration:none;
+    font-size:14px;
+}
+
+.links a:hover{
+    color:#ffd54f;
+}
+
+@media(max-width:480px){
+
+.login-box{
+    width:90%;
+    padding:30px;
+}
+
+.links{
+    flex-direction:column;
+    gap:10px;
+    text-align:center;
+}
+
+}
+
+/* forgot page--- */
+/* Forgot Password Text */
+
+.forgot-text {
+    text-align: center;
+    color: #e2e8f0;
+    font-size: 14px;
+    margin-bottom: 25px;
+    line-height: 1.5;
+}
+
+
+/* Forgot Button Same Theme */
+
+.login-box button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(
+        90deg,
+        #ff9a00,
+        #ffcc00
+    );
+
+    color: #111827;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+.login-box button:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+    0 10px 25px rgba(255,204,0,0.45);
+
+}
+
+
+/* Mobile Responsive */
+
+@media(max-width:480px){
+
+    .login-box{
+        width:90%;
+        padding:30px 20px;
+    }
+
+}
+
+/* component css */
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  /* background: linear-gradient(135deg, #111827, #1f2937); */
+  position: fixed;
+  left: 0;
+  top: 0;
+  padding: 25px 15px;
+  box-sizing: border-box;
+
+  background: linear-gradient(
+    180deg,
+    #2e1065,
+    #3b0764
+  );
+
+  color: white;
+
+  box-shadow:
+    4px 0 20px rgba(0, 0, 0, 0.25);
+}
+
+
+.sidebar-logo {
+  color: white;
+  text-align: center;
+  margin-bottom: 35px;
+  font-size: 24px;
+}
+
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+}
+
+
+.sidebar-menu li {
+  margin-bottom: 15px;
+}
+
+
+.sidebar-menu li a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 13px 18px;
+  border-radius: 10px;
+  font-size: 16px;
+  transition: 0.3s;
+}
+
+
+.sidebar-menu li a:hover {
+  background: #2563eb;
+  transform: translateX(5px);
+}
+
+
+/* Content ke liye */
+.main-content {
+  margin-left: 260px;
+  padding: 20px;
+}
+
+/* dashbord css */
+.dashbord {
+  display: flex;
+}
+
+/* category css --------------------------------------------------------- */
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+
+body{
+    background:#f5f3ff;
+}
+
+
+/* Category Main Container */
+
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f5f3ff;
+}
+
+
+
+
+.admin-layout {
+  min-height: 100vh;
+
+  margin-left: 260px;
+
+  padding: 40px;
+
+  background: linear-gradient(
+    135deg,
+    #4c1d95,
+    #7c3aed,
+    #c084fc
+  );
+
+  position: relative;
+}
+
+
+
+
+.dashbord {
+  width: 100%;
+
+  display: block;
+}
+
+
+
+
+.dashbord h1 {
+  display: block;
+
+  width: 100%;
+
+  color: white;
+
+  text-align: center;
+
+  font-size: 35px;
+
+  margin-bottom: 30px;
+}
+
+
+
+
+.category-form {
+  display: block;
+
+  width: 420px;
+
+  margin: 0 auto;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.30);
+}
+
+
+/* Form heading */
+
+.category-form h2 {
+  color: white;
+
+  text-align: center;
+
+  font-size: 23px;
+
+  margin-bottom: 20px;
+}
+
+
+
+
+.category-form input {
+  display: block;
+
+  width: 100%;
+
+  padding: 14px;
+
+  margin-bottom: 15px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.20);
+
+  color: white;
+
+  font-size: 15px;
+}
+
+
+.category-form input::placeholder {
+  color: #f1f5f9;
+}
+
+
+.category-form input:focus {
+  background: rgba(255, 255, 255, 0.28);
+
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+
+
+
+.category-form input[type="file"] {
+  background: transparent;
+
+  color: white;
+
+  cursor: pointer;
+}
+
+
+
+
+.category-form button[type="submit"] {
+  display: block;
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #ff9a00,
+    #ffcc00
+  );
+
+  color: #222;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+.category-form button[type="submit"]:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 8px 20px rgba(255, 204, 0, 0.45);
+}
+
+
+
+.category-form .cancel-btn {
+  display: block;
+
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+.category-form .cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.40);
+}
+
+
+
+
+.dashbord hr {
+  display: block;
+
+  width: 100%;
+
+  margin: 40px 0;
+
+  border: none;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.30);
+}
+
+
+
+
+.dashbord > h2 {
+  display: block;
+
+  width: 100%;
+
+  color: white;
+
+  text-align: center;
+
+  font-size: 27px;
+
+  margin-bottom: 25px;
+}
+
+
+
+.category-table {
+  display: table;
+
+  width: 100%;
+
+  margin: 0;
+
+  border-collapse: collapse;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(15px);
+
+  -webkit-backdrop-filter: blur(15px);
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  color: white;
+
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+
+
+.category-table thead {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+
+.category-table th {
+  padding: 16px;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  text-align: center;
+}
+
+
+
+
+.category-table td {
+  padding: 16px;
+
+  color: white;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+
+
+
+.category-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+
+
+
+.category-table .edit-btn {
+  display: inline-block;
+
+  width: auto;
+
+  padding: 8px 16px;
+
+  margin-right: 8px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #3b82f6;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+.category-table .edit-btn:hover {
+  background: #2563eb;
+
+  transform: translateY(-2px);
+}
+
+
+.category-table .delete-btn {
+  display: inline-block;
+
+  width: auto;
+
+  padding: 8px 16px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #ef4444;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+.category-table .delete-btn:hover {
+  background: #dc2626;
+
+  transform: translateY(-2px);
+}
+
+
+
+
+.category-table td[colspan="3"] {
+  padding: 25px;
+
+  color: white;
+
+  text-align: center;
+}
+
+
+
+
+@media (max-width: 900px) {
+
+  .admin-layout {
+    margin-left: 0;
+
+    padding: 25px;
+  }
+
+  .category-form {
+    width: 90%;
+  }
+
+  .category-table {
+    width: 100%;
+  }
+}
+
+
+@media (max-width: 600px) {
+
+  .admin-layout {
+    padding: 20px;
+  }
+
+  .dashbord h1 {
+    font-size: 27px;
+  }
+
+  .category-form {
+    width: 100%;
+
+    padding: 25px;
+  }
+
+  .category-table {
+    display: block;
+
+    overflow-x: auto;
+
+    white-space: nowrap;
+  }
+
+  .category-table th,
+  .category-table td {
+    padding: 10px;
+  }
+}
+
+
+
+/* product page css------------------------------------------------------------------------- */
+
+
+
+
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #f5f3ff;
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+===================================================== */
+
+.main-content {
+  min-height: 100vh;
+
+  margin-left: 260px;
+
+  padding: 40px;
+ 
+
+  background: linear-gradient(
+    135deg,
+    #4c1d95,
+    #7c3aed,
+    #c084fc
+  );
+}
+
+
+/* =====================================================
+   PAGE TITLE
+===================================================== */
+
+.main-content h1 {
+  display: block;
+
+  width: 100%;
+
+  color: white;
+
+  text-align: center;
+
+  font-size: 35px;
+
+  margin-bottom: 30px;
+}
+
+
+/* =====================================================
+   FORM
+===================================================== */
+
+.category-form {
+  display: block;
+
+  width: 800px;
+
+  margin: 0 auto;
+
+  padding: 30px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(18px);
+
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.25);
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.30);
+}
+
+
+/* =====================================================
+   FORM HEADING
+===================================================== */
+
+.category-form h2 {
+  color: white;
+
+  text-align: center;
+
+  font-size: 23px;
+
+  margin-bottom: 20px;
+}
+
+
+/* =====================================================
+   INPUT + SELECT
+===================================================== */
+
+.category-form input,
+.category-form select {
+  display: block;
+
+  width: 100%;
+
+  padding: 14px;
+
+  margin-bottom: 15px;
+
+  border: none;
+
+  outline: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.20);
+
+  color: white;
+
+  font-size: 15px;
+}
+
+
+/* =====================================================
+   PLACEHOLDER
+===================================================== */
+
+.category-form input::placeholder {
+  color: #f1f5f9;
+}
+
+
+/* =====================================================
+   INPUT FOCUS
+===================================================== */
+
+.category-form input:focus,
+.category-form select:focus {
+  background: rgba(255, 255, 255, 0.28);
+
+  box-shadow:
+    0 0 0 2px rgba(255, 255, 255, 0.25);
+}
+
+
+/* =====================================================
+   SELECT OPTIONS
+===================================================== */
+
+.category-form select option {
+  background: #4c1d95;
+
+  color: white;
+}
+
+
+/* =====================================================
+   FILE INPUT
+===================================================== */
+
+.category-form input[type="file"] {
+  background: transparent;
+
+  color: white;
+
+  cursor: pointer;
+
+  padding: 10px 0;
+}
+
+
+/* =====================================================
+   FILE BUTTON
+===================================================== */
+
+.category-form input[type="file"]::file-selector-button {
+  padding: 9px 14px;
+
+  margin-right: 10px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: bold;
+}
+
+
+/* =====================================================
+   CREATE / UPDATE BUTTON
+===================================================== */
+
+.category-form button[type="submit"] {
+  display: block;
+
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: linear-gradient(
+    90deg,
+    #ff9a00,
+    #ffcc00
+  );
+
+  color: #222;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+/* =====================================================
+   SUBMIT HOVER
+===================================================== */
+
+.category-form button[type="submit"]:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(255, 204, 0, 0.45);
+}
+
+
+/* =====================================================
+   CANCEL BUTTON
+===================================================== */
+
+.category-form .cancel-btn {
+  display: block;
+
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 12px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.25);
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+/* =====================================================
+   CANCEL HOVER
+===================================================== */
+
+.category-form .cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.40);
+}
+
+
+/* =====================================================
+   HORIZONTAL LINE
+===================================================== */
+
+.main-content hr {
+  display: block;
+
+  width: 100%;
+
+  margin: 40px 0;
+
+  border: none;
+
+  border-top:
+    1px solid rgba(255, 255, 255, 0.30);
+}
+
+
+/* =====================================================
+   ALL PRODUCTS HEADING
+===================================================== */
+
+.main-content > h2 {
+  display: block;
+
+  width: 100%;
+
+  color: white;
+
+  text-align: center;
+
+  font-size: 27px;
+
+  margin-bottom: 25px;
+}
+
+
+/* =====================================================
+   PRODUCT TABLE
+===================================================== */
+
+.category-table {
+  display: table;
+
+  width: 100%;
+
+  margin: 0;
+
+  border-collapse: collapse;
+
+  background: rgba(255, 255, 255, 0.15);
+
+  backdrop-filter: blur(15px);
+
+  -webkit-backdrop-filter: blur(15px);
+
+  border-radius: 15px;
+
+  overflow: hidden;
+
+  color: white;
+
+  box-shadow:
+    0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+
+/* =====================================================
+   TABLE HEADER
+===================================================== */
+
+.category-table thead {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+
+.category-table th {
+  padding: 16px;
+
+  color: white;
+
+  font-size: 15px;
+
+  font-weight: bold;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   TABLE BODY
+===================================================== */
+
+.category-table td {
+  padding: 16px;
+
+  color: white;
+
+  font-size: 14px;
+
+  text-align: center;
+
+  border-bottom:
+    1px solid rgba(255, 255, 255, 0.20);
+
+  vertical-align: middle;
+}
+
+
+/* =====================================================
+   TABLE HOVER
+===================================================== */
+
+.category-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+
+/* =====================================================
+   PRODUCT IMAGE
+===================================================== */
+
+.category-table td img {
+  width: 70px;
+
+  height: 70px;
+
+  object-fit: cover;
+
+  border-radius: 10px;
+
+  border: 2px solid
+    rgba(255, 255, 255, 0.35);
+
+  display: block;
+
+  margin: auto;
+}
+
+
+/* =====================================================
+   EDIT BUTTON
+===================================================== */
+
+.category-table .edit-btn {
+  display: inline-block;
+
+  width: auto;
+
+  padding: 8px 16px;
+
+  margin-right: 8px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #3b82f6;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+/* =====================================================
+   EDIT HOVER
+===================================================== */
+
+.category-table .edit-btn:hover {
+  background: #2563eb;
+
+  transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   DELETE BUTTON
+===================================================== */
+
+.category-table .delete-btn {
+  display: inline-block;
+
+  width: auto;
+
+  padding: 8px 16px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #ef4444;
+
+  color: white;
+
+  font-size: 13px;
+
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+
+/* =====================================================
+   DELETE HOVER
+===================================================== */
+
+.category-table .delete-btn:hover {
+  background: #dc2626;
+
+  transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   EMPTY TABLE
+===================================================== */
+
+.category-table td[colspan="7"] {
+  padding: 25px;
+
+  color: white;
+
+  text-align: center;
+}
+
+
+/* =====================================================
+   PRICE
+===================================================== */
+
+.category-table td:nth-child(4) {
+  color: #fde68a;
+
+  font-weight: bold;
+}
+
+
+/* =====================================================
+   STOCK
+===================================================== */
+
+.category-table td:nth-child(5) {
+  font-weight: bold;
+}
+
+
+/* =====================================================
+   RESPONSIVE - TABLET
+===================================================== */
+
+@media (max-width: 900px) {
+
+  .main-content {
+    margin-left: 0;
+
+    padding: 25px;
+  }
+
+  .category-form {
+    width: 90%;
+  }
+
+  .category-table {
+    width: 100%;
+  }
+}
+
+
+/* =====================================================
+   RESPONSIVE - MOBILE
+===================================================== */
+
+@media (max-width: 600px) {
+
+  .main-content {
+    padding: 20px;
+  }
+
+
+  .main-content h1 {
+    font-size: 27px;
+  }
+
+
+  .category-form {
+    width: 100%;
+
+    padding: 25px;
+  }
+
+
+  .category-table {
+    display: block;
+
+    overflow-x: auto;
+
+    white-space: nowrap;
+  }
+
+
+  .category-table th,
+  .category-table td {
+    padding: 10px;
+  }
+
+
+  .category-table td img {
+    width: 55px;
+
+    height: 55px;
+  }
+}
+
+
+/* =====================================================
+   SMALL MOBILE
+===================================================== */
+
+@media (max-width: 400px) {
+
+  .main-content {
+    padding: 15px;
+  }
+
+
+  .main-content h1 {
+    font-size: 23px;
+  }
+
+
+  .main-content > h2 {
+    font-size: 22px;
+  }
+
+
+  .category-form {
+    padding: 20px;
+  }
+
+
+  .category-form input,
+  .category-form select {
+    padding: 12px;
+
+    font-size: 14px;
+  }
+
+
+  .category-table .edit-btn,
+  .category-table .delete-btn {
+    padding: 7px 10px;
+
+    font-size: 12px;
+  }
+}
+
+
+
