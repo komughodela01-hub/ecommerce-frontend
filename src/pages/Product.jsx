@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import "../css/Auth.css";
 import Sidebar from "../components/Sidebar";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+const getAuthHeaders = () => ({
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
 
 function Product() {
   const [products, setProducts] = useState([]);
@@ -20,16 +28,9 @@ function Product() {
   });
 
   // =========================
-  // AUTH HEADERS
-  // =========================
-  const getAuthHeaders = () => ({
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  });
-
-  // =========================
   // GET ALL PRODUCTS
   // =========================
-  const getProducts = async () => {
+  const getProducts = useCallback(async () => {
     try {
       const res = await axios.get(
         `${BASE_URL}/admin/product/getAllProduct`,
@@ -49,11 +50,14 @@ function Product() {
           "Failed to get products"
       );
     }
-  };
+  }, []);
 
+  // =========================
+  // USE EFFECT
+  // =========================
   useEffect(() => {
     getProducts();
-  }, []);
+  }, [getProducts]);
 
   // =========================
   // HANDLE INPUT CHANGE
@@ -119,10 +123,16 @@ function Product() {
       const formData = new FormData();
 
       formData.append("name", form.name);
-      formData.append("description", form.description);
+      formData.append(
+        "description",
+        form.description
+      );
       formData.append("price", form.price);
       formData.append("stock", form.stock);
-      formData.append("status", form.status ? "Y" : "N");
+      formData.append(
+        "status",
+        form.status ? "Y" : "N"
+      );
 
       if (image) {
         formData.append("image", image);
@@ -140,12 +150,15 @@ function Product() {
           {
             headers: {
               ...getAuthHeaders(),
-              "Content-Type": "multipart/form-data",
+              "Content-Type":
+                "multipart/form-data",
             },
           }
         );
 
-        alert("Product Updated Successfully");
+        alert(
+          "Product Updated Successfully"
+        );
       }
 
       // =========================
@@ -158,12 +171,15 @@ function Product() {
           {
             headers: {
               ...getAuthHeaders(),
-              "Content-Type": "multipart/form-data",
+              "Content-Type":
+                "multipart/form-data",
             },
           }
         );
 
-        alert("Product Created Successfully");
+        alert(
+          "Product Created Successfully"
+        );
       }
 
       await getProducts();
@@ -203,7 +219,9 @@ function Product() {
         }
       );
 
-      alert("Product Deleted Successfully");
+      alert(
+        "Product Deleted Successfully"
+      );
 
       await getProducts();
     } catch (error) {
@@ -279,19 +297,27 @@ function Product() {
             onChange={(e) =>
               setForm((prev) => ({
                 ...prev,
-                status: e.target.value === "Y",
+                status:
+                  e.target.value === "Y",
               }))
             }
           >
-            <option value="Y">Active</option>
-            <option value="N">Inactive</option>
+            <option value="Y">
+              Active
+            </option>
+
+            <option value="N">
+              Inactive
+            </option>
           </select>
 
           <input
             type="file"
             accept="image/*"
             onChange={(e) =>
-              setImage(e.target.files?.[0] || null)
+              setImage(
+                e.target.files?.[0] || null
+              )
             }
           />
 
@@ -360,7 +386,9 @@ function Product() {
 
                   {/* DESCRIPTION */}
 
-                  <td>{item.description}</td>
+                  <td>
+                    {item.description}
+                  </td>
 
                   {/* PRICE */}
 
@@ -413,7 +441,9 @@ function Product() {
                       type="button"
                       className="delete-btn"
                       onClick={() =>
-                        deleteProduct(item._id)
+                        deleteProduct(
+                          item._id
+                        )
                       }
                     >
                       Delete

@@ -1,9 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import axios from "axios";
 import "../css/Auth.css";
 import Sidebar from "../components/Sidebar";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
+
+const getAuthHeaders = () => ({
+  Authorization: `Bearer ${localStorage.getItem("token")}`,
+});
 
 function Category() {
   const [categories, setCategories] = useState([]);
@@ -18,14 +26,10 @@ function Category() {
     status: true,
   });
 
-  const getAuthHeaders = () => ({
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  });
-
   // =========================
   // GET ALL CATEGORIES
   // =========================
-  const getCategories = async () => {
+  const getCategories = useCallback(async () => {
     try {
       const res = await axios.get(
         `${BASE_URL}/admin/category/getAllCategory`,
@@ -43,11 +47,14 @@ function Category() {
           "Failed to get categories"
       );
     }
-  };
+  }, []);
 
+  // =========================
+  // USE EFFECT
+  // =========================
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [getCategories]);
 
   // =========================
   // HANDLE INPUT CHANGE
@@ -86,7 +93,9 @@ function Category() {
       name: item.name || "",
       description: item.description || "",
       parentId: item.parentId || "",
-      status: item.status === "Y" || item.status === true,
+      status:
+        item.status === "Y" ||
+        item.status === true,
     });
 
     setImage(null);
@@ -108,15 +117,27 @@ function Category() {
       const formData = new FormData();
 
       formData.append("name", form.name);
-      formData.append("description", form.description);
-      formData.append("status", form.status ? "Y" : "N");
+      formData.append(
+        "description",
+        form.description
+      );
+      formData.append(
+        "status",
+        form.status ? "Y" : "N"
+      );
 
       if (form.parentId) {
-        formData.append("parentId", form.parentId);
+        formData.append(
+          "parentId",
+          form.parentId
+        );
       }
 
       if (image) {
-        formData.append("profileImage", image);
+        formData.append(
+          "profileImage",
+          image
+        );
       }
 
       // =========================
@@ -131,12 +152,15 @@ function Category() {
           {
             headers: {
               ...getAuthHeaders(),
-              "Content-Type": "multipart/form-data",
+              "Content-Type":
+                "multipart/form-data",
             },
           }
         );
 
-        alert("Category Updated Successfully");
+        alert(
+          "Category Updated Successfully"
+        );
       }
 
       // =========================
@@ -149,12 +173,15 @@ function Category() {
           {
             headers: {
               ...getAuthHeaders(),
-              "Content-Type": "multipart/form-data",
+              "Content-Type":
+                "multipart/form-data",
             },
           }
         );
 
-        alert("Category Created Successfully");
+        alert(
+          "Category Created Successfully"
+        );
       }
 
       await getCategories();
@@ -194,7 +221,9 @@ function Category() {
         }
       );
 
-      alert("Category Deleted Successfully");
+      alert(
+        "Category Deleted Successfully"
+      );
 
       await getCategories();
     } catch (error) {
@@ -214,13 +243,16 @@ function Category() {
 
         <h1>Category Management</h1>
 
-        {/* =========================
-            CREATE / UPDATE FORM
-        ========================= */}
+        {/* CREATE / UPDATE FORM */}
 
-        <form onSubmit={handleSubmit} className="category-form">
+        <form
+          onSubmit={handleSubmit}
+          className="category-form"
+        >
           <h2>
-            {isEdit ? "Update Category" : "Create Category"}
+            {isEdit
+              ? "Update Category"
+              : "Create Category"}
           </h2>
 
           <input
@@ -253,12 +285,16 @@ function Category() {
             type="file"
             accept="image/*"
             onChange={(e) =>
-              setImage(e.target.files?.[0] || null)
+              setImage(
+                e.target.files?.[0] || null
+              )
             }
           />
 
           <button type="submit">
-            {isEdit ? "Update Category" : "Create Category"}
+            {isEdit
+              ? "Update Category"
+              : "Create Category"}
           </button>
 
           {isEdit && (
@@ -274,9 +310,7 @@ function Category() {
 
         <hr />
 
-        {/* =========================
-            ALL CATEGORIES
-        ========================= */}
+        {/* ALL CATEGORIES */}
 
         <h2>All Categories</h2>
 
@@ -295,13 +329,17 @@ function Category() {
                 <tr key={item._id}>
                   <td>{item.name}</td>
 
-                  <td>{item.description}</td>
+                  <td>
+                    {item.description}
+                  </td>
 
                   <td>
                     <button
                       type="button"
                       className="edit-btn"
-                      onClick={() => editCategory(item)}
+                      onClick={() =>
+                        editCategory(item)
+                      }
                     >
                       Edit
                     </button>
@@ -310,7 +348,9 @@ function Category() {
                       type="button"
                       className="delete-btn"
                       onClick={() =>
-                        deleteCategory(item._id)
+                        deleteCategory(
+                          item._id
+                        )
                       }
                     >
                       Delete
