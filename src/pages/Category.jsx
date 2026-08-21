@@ -1,8 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../css/Auth.css";
 import Sidebar from "../components/Sidebar";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function Category() {
   const [categories, setCategories] = useState([]);
@@ -17,22 +18,30 @@ function Category() {
     status: true,
   });
 
+  const getAuthHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  });
 
+  // =========================
+  // GET ALL CATEGORIES
+  // =========================
   const getCategories = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:3003/admin/category/getAllCategory",
+        `${BASE_URL}/admin/category/getAllCategory`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: getAuthHeaders(),
         }
       );
 
-      setCategories(res.data.data);
+      setCategories(res.data.data || []);
     } catch (error) {
       console.log(error);
-      alert(error.response?.data?.message || "Failed to get categories");
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to get categories"
+      );
     }
   };
 
@@ -40,15 +49,21 @@ function Category() {
     getCategories();
   }, []);
 
-  
+  // =========================
+  // HANDLE INPUT CHANGE
+  // =========================
   const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value } = e.target;
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
-
+  // =========================
+  // RESET FORM
+  // =========================
   const resetForm = () => {
     setForm({
       id: "",
@@ -62,7 +77,9 @@ function Category() {
     setIsEdit(false);
   };
 
-
+  // =========================
+  // EDIT CATEGORY
+  // =========================
   const editCategory = (item) => {
     setForm({
       id: item._id,
@@ -75,14 +92,15 @@ function Category() {
     setImage(null);
     setIsEdit(true);
 
-    // Form ke top par le jayega
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
   };
 
-
+  // =========================
+  // CREATE / UPDATE CATEGORY
+  // =========================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -91,14 +109,12 @@ function Category() {
 
       formData.append("name", form.name);
       formData.append("description", form.description);
+      formData.append("status", form.status ? "Y" : "N");
 
       if (form.parentId) {
         formData.append("parentId", form.parentId);
       }
 
-      formData.append("status", form.status ? "Y" : "N");
-
-      // Image only if selected
       if (image) {
         formData.append("profileImage", image);
       }
@@ -110,11 +126,11 @@ function Category() {
         formData.append("id", form.id);
 
         await axios.post(
-          "http://localhost:3003/admin/category/updateCategory",
+          `${BASE_URL}/admin/category/updateCategory`,
           formData,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              ...getAuthHeaders(),
               "Content-Type": "multipart/form-data",
             },
           }
@@ -128,11 +144,11 @@ function Category() {
       // =========================
       else {
         await axios.post(
-          "http://localhost:3003/admin/category/createCategory",
+          `${BASE_URL}/admin/category/createCategory`,
           formData,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              ...getAuthHeaders(),
               "Content-Type": "multipart/form-data",
             },
           }
@@ -141,10 +157,7 @@ function Category() {
         alert("Category Created Successfully");
       }
 
-      // Refresh categories
       await getCategories();
-
-      // Reset form
       resetForm();
     } catch (error) {
       console.log(error);
@@ -159,7 +172,7 @@ function Category() {
   };
 
   // =========================
-  // Delete Category
+  // DELETE CATEGORY
   // =========================
   const deleteCategory = async (id) => {
     const confirmDelete = window.confirm(
@@ -172,25 +185,24 @@ function Category() {
 
     try {
       await axios.post(
-        "http://localhost:3003/admin/category/deleteCategory",
+        `${BASE_URL}/admin/category/deleteCategory`,
         {
-          id: id,
+          id,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
+          headers: getAuthHeaders(),
         }
       );
 
       alert("Category Deleted Successfully");
 
-      getCategories();
+      await getCategories();
     } catch (error) {
       console.log(error);
 
       alert(
-        error.response?.data?.message || "Failed to delete category"
+        error.response?.data?.message ||
+          "Failed to delete category"
       );
     }
   };
@@ -240,14 +252,15 @@ function Category() {
           <input
             type="file"
             accept="image/*"
-            onChange={(e) => setImage(e.target.files[0])}
+            onChange={(e) =>
+              setImage(e.target.files?.[0] || null)
+            }
           />
 
           <button type="submit">
             {isEdit ? "Update Category" : "Create Category"}
           </button>
 
-          {/* Cancel button only in edit mode */}
           {isEdit && (
             <button
               type="button"
@@ -285,7 +298,6 @@ function Category() {
                   <td>{item.description}</td>
 
                   <td>
-                    {/* EDIT / UPDATE */}
                     <button
                       type="button"
                       className="edit-btn"
@@ -294,11 +306,12 @@ function Category() {
                       Edit
                     </button>
 
-                    {/* DELETE */}
                     <button
                       type="button"
                       className="delete-btn"
-                      onClick={() => deleteCategory(item._id)}
+                      onClick={() =>
+                        deleteCategory(item._id)
+                      }
                     >
                       Delete
                     </button>
@@ -320,4 +333,3 @@ function Category() {
 }
 
 export default Category;
-

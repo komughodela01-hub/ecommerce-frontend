@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../css/Auth.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 function Forgot() {
 
@@ -15,7 +16,7 @@ function Forgot() {
     try {
 
       const res = await axios.post(
-        "http://localhost:3003/admin/auth/forgot",
+       axios.get(`${BASE_URL}/admin/auth/forgot`),
         {
           mobile
         }

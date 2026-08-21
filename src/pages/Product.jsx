@@ -3,8 +3,9 @@ import axios from "axios";
 import "../css/Auth.css";
 import Sidebar from "../components/Sidebar";
 
-function Product() {
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+function Product() {
   const [products, setProducts] = useState([]);
   const [image, setImage] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
@@ -18,77 +19,58 @@ function Product() {
     status: true,
   });
 
+  // =========================
+  // AUTH HEADERS
+  // =========================
+  const getAuthHeaders = () => ({
+    Authorization: `Bearer ${localStorage.getItem("token")}`,
+  });
 
-  // =====================================================
+  // =========================
   // GET ALL PRODUCTS
-  // =====================================================
-
+  // =========================
   const getProducts = async () => {
-
     try {
-
       const res = await axios.get(
-        "http://localhost:3003/admin/product/getAllProduct",
+        `${BASE_URL}/admin/product/getAllProduct`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "token"
-            )}`,
-          },
+          headers: getAuthHeaders(),
         }
       );
 
       console.log("Products:", res.data);
 
       setProducts(res.data.data || []);
-
     } catch (error) {
-
       console.log(error);
 
       alert(
         error.response?.data?.message ||
           "Failed to get products"
       );
-
     }
-
   };
-
-
-  // =====================================================
-  // USE EFFECT
-  // =====================================================
 
   useEffect(() => {
-
     getProducts();
-
   }, []);
 
-
-  // =====================================================
+  // =========================
   // HANDLE INPUT CHANGE
-  // =====================================================
-
+  // =========================
   const handleChange = (e) => {
-
     const { name, value } = e.target;
 
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [name]: value,
-    });
-
+    }));
   };
 
-
-  // =====================================================
+  // =========================
   // RESET FORM
-  // =====================================================
-
+  // =========================
   const resetForm = () => {
-
     setForm({
       id: "",
       name: "",
@@ -99,30 +81,19 @@ function Product() {
     });
 
     setImage(null);
-
     setIsEdit(false);
-
   };
 
-
-  // =====================================================
+  // =========================
   // EDIT PRODUCT
-  // =====================================================
-
+  // =========================
   const editProduct = (item) => {
-
     setForm({
       id: item._id,
-
       name: item.name || "",
-
-      description:
-        item.description || "",
-
+      description: item.description || "",
       price: item.price || "",
-
       stock: item.stock || "",
-
       status:
         item.status === "Y" ||
         item.status === true ||
@@ -130,145 +101,74 @@ function Product() {
     });
 
     setImage(null);
-
     setIsEdit(true);
-
-
-    // Form ke top par le jayega
 
     window.scrollTo({
       top: 0,
       behavior: "smooth",
     });
-
   };
 
-
-  // =====================================================
+  // =========================
   // CREATE / UPDATE PRODUCT
-  // =====================================================
-
+  // =========================
   const handleSubmit = async (e) => {
-
     e.preventDefault();
 
     try {
-
       const formData = new FormData();
 
-      formData.append(
-        "name",
-        form.name
-      );
-
-      formData.append(
-        "description",
-        form.description
-      );
-
-      formData.append(
-        "price",
-        form.price
-      );
-
-      formData.append(
-        "stock",
-        form.stock
-      );
-
-      formData.append(
-        "status",
-        form.status ? "Y" : "N"
-      );
-
-
-      // Image
+      formData.append("name", form.name);
+      formData.append("description", form.description);
+      formData.append("price", form.price);
+      formData.append("stock", form.stock);
+      formData.append("status", form.status ? "Y" : "N");
 
       if (image) {
-
-        formData.append(
-          "image",
-          image
-        );
-
+        formData.append("image", image);
       }
 
-
-      // =================================================
+      // =========================
       // UPDATE PRODUCT
-      // =================================================
-
+      // =========================
       if (isEdit) {
-
-        formData.append(
-          "id",
-          form.id
-        );
-
+        formData.append("id", form.id);
 
         await axios.post(
-          "http://localhost:3003/admin/product/updateProduct",
+          `${BASE_URL}/admin/product/updateProduct`,
           formData,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem(
-                "token"
-              )}`,
-
-              "Content-Type":
-                "multipart/form-data",
+              ...getAuthHeaders(),
+              "Content-Type": "multipart/form-data",
             },
           }
         );
 
-
-        alert(
-          "Product Updated Successfully"
-        );
-
+        alert("Product Updated Successfully");
       }
 
-
-      // =================================================
+      // =========================
       // CREATE PRODUCT
-      // =================================================
-
+      // =========================
       else {
-
         await axios.post(
-          "http://localhost:3003/admin/product/createProduct",
+          `${BASE_URL}/admin/product/createProduct`,
           formData,
           {
             headers: {
-              Authorization: `Bearer ${localStorage.getItem(
-                "token"
-              )}`,
-
-              "Content-Type":
-                "multipart/form-data",
+              ...getAuthHeaders(),
+              "Content-Type": "multipart/form-data",
             },
           }
         );
 
-
-        alert(
-          "Product Created Successfully"
-        );
-
+        alert("Product Created Successfully");
       }
-
-
-      // Refresh products
 
       await getProducts();
-
-
-      // Reset form
-
       resetForm();
-
     } catch (error) {
-
       console.log(error);
 
       alert(
@@ -277,105 +177,63 @@ function Product() {
             ? "Failed to update product"
             : "Failed to create product")
       );
-
     }
-
   };
 
-
-  // =====================================================
+  // =========================
   // DELETE PRODUCT
-  // =====================================================
-
+  // =========================
   const deleteProduct = async (id) => {
-
-    const confirmDelete =
-      window.confirm(
-        "Are you sure you want to delete this product?"
-      );
-
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
 
     if (!confirmDelete) {
-
       return;
-
     }
 
-
     try {
-
       await axios.post(
-        "http://localhost:3003/admin/product/deleteProduct",
+        `${BASE_URL}/admin/product/deleteProduct`,
         {
-          id: id,
+          id,
         },
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(
-              "token"
-            )}`,
-          },
+          headers: getAuthHeaders(),
         }
       );
 
-
-      alert(
-        "Product Deleted Successfully"
-      );
-
+      alert("Product Deleted Successfully");
 
       await getProducts();
-
     } catch (error) {
-
       console.log(error);
 
       alert(
         error.response?.data?.message ||
           "Failed to delete product"
       );
-
     }
-
   };
 
-
-  // =====================================================
-  // RETURN
-  // =====================================================
-
   return (
-
     <div>
-
       <Sidebar />
 
       <div className="main-content">
+        <h1>Product Management</h1>
 
-        <h1>
-          Product Management
-        </h1>
-
-
-        {/* =================================================
-            CREATE / UPDATE FORM
-        ================================================= */}
+        {/* CREATE / UPDATE FORM */}
 
         <form
           onSubmit={handleSubmit}
           className="category-form"
         >
-
           <h2>
-
             {isEdit
               ? "Update Product"
               : "Create Product"}
-
           </h2>
-
-
-          {/* PRODUCT NAME */}
 
           <input
             type="text"
@@ -386,9 +244,6 @@ function Product() {
             required
           />
 
-
-          {/* DESCRIPTION */}
-
           <input
             type="text"
             placeholder="Description"
@@ -397,9 +252,6 @@ function Product() {
             onChange={handleChange}
             required
           />
-
-
-          {/* PRICE */}
 
           <input
             type="number"
@@ -411,9 +263,6 @@ function Product() {
             required
           />
 
-
-          {/* STOCK */}
-
           <input
             type="number"
             placeholder="Stock"
@@ -424,310 +273,166 @@ function Product() {
             required
           />
 
-
-          {/* STATUS */}
-
           <select
             name="status"
             value={form.status ? "Y" : "N"}
             onChange={(e) =>
-              setForm({
-                ...form,
-                status:
-                  e.target.value === "Y",
-              })
+              setForm((prev) => ({
+                ...prev,
+                status: e.target.value === "Y",
+              }))
             }
           >
-
-            <option value="Y">
-              Active
-            </option>
-
-            <option value="N">
-              Inactive
-            </option>
-
+            <option value="Y">Active</option>
+            <option value="N">Inactive</option>
           </select>
-
-
-          {/* IMAGE */}
 
           <input
             type="file"
             accept="image/*"
             onChange={(e) =>
-              setImage(
-                e.target.files[0]
-              )
+              setImage(e.target.files?.[0] || null)
             }
           />
 
-
-          {/* SUBMIT */}
-
           <button type="submit">
-
             {isEdit
               ? "Update Product"
               : "Create Product"}
-
           </button>
 
-
-          {/* CANCEL */}
-
           {isEdit && (
-
             <button
               type="button"
               onClick={resetForm}
               className="cancel-btn"
             >
-
               Cancel Edit
-
             </button>
-
           )}
-
         </form>
-
 
         <hr />
 
+        {/* ALL PRODUCTS */}
 
-        {/* =================================================
-            ALL PRODUCTS
-        ================================================= */}
-
-        <h2>
-          All Products
-        </h2>
-
+        <h2>All Products</h2>
 
         <table className="category-table">
-
           <thead>
-
             <tr>
-
-              <th>
-                Image
-              </th>
-
-              <th>
-                Name
-              </th>
-
-              <th>
-                Description
-              </th>
-
-              <th>
-                Price
-              </th>
-
-              <th>
-                Stock
-              </th>
-
-              <th>
-                Status
-              </th>
-
-              <th>
-                Action
-              </th>
-
+              <th>Image</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Stock</th>
+              <th>Status</th>
+              <th>Action</th>
             </tr>
-
           </thead>
 
-
           <tbody>
-
             {products.length > 0 ? (
+              products.map((item) => (
+                <tr key={item._id}>
+                  {/* IMAGE */}
 
-              products.map(
-                (item) => (
+                  <td>
+                    {item.image ? (
+                      <img
+                        src={`${BASE_URL}/${item.image}`}
+                        alt={item.name}
+                        width="70"
+                        height="70"
+                        style={{
+                          objectFit: "cover",
+                          borderRadius: "8px",
+                        }}
+                      />
+                    ) : (
+                      "No Image"
+                    )}
+                  </td>
 
-                  <tr
-                    key={item._id}
-                  >
+                  {/* NAME */}
 
+                  <td>{item.name}</td>
 
-                    {/* IMAGE */}
+                  {/* DESCRIPTION */}
 
-                    <td>
+                  <td>{item.description}</td>
 
-                      {item.image ? (
+                  {/* PRICE */}
 
-                        <img
-                          src={`http://localhost:3003/${item.image}`}
-                          alt={
-                            item.name
-                          }
-                          width="70"
-                          height="70"
-                          style={{
-                            objectFit:
-                              "cover",
-                            borderRadius:
-                              "8px",
-                          }}
-                        />
+                  <td>₹{item.price}</td>
 
-                      ) : (
+                  {/* STOCK */}
 
-                        "No Image"
+                  <td>{item.stock}</td>
 
-                      )}
+                  {/* STATUS */}
 
-                    </td>
-
-
-                    {/* NAME */}
-
-                    <td>
-
-                      {item.name}
-
-                    </td>
-
-
-                    {/* DESCRIPTION */}
-
-                    <td>
-
-                      {item.description}
-
-                    </td>
-
-
-                    {/* PRICE */}
-
-                    <td>
-
-                      ₹{item.price}
-
-                    </td>
-
-
-                    {/* STOCK */}
-
-                    <td>
-
-                      {item.stock}
-
-                    </td>
-
-
-                    {/* STATUS */}
-
-                    <td>
-
-                      {item.status ===
-                        "Y" ||
-                      item.status ===
-                        true ||
-                      item.status ===
-                        "active" ? (
-
-                        <span
-                          style={{
-                            color:
-                              "green",
-                            fontWeight:
-                              "bold",
-                          }}
-                        >
-                          Active
-                        </span>
-
-                      ) : (
-
-                        <span
-                          style={{
-                            color:
-                              "red",
-                            fontWeight:
-                              "bold",
-                          }}
-                        >
-                          Inactive
-                        </span>
-
-                      )}
-
-                    </td>
-
-
-                    {/* ACTION */}
-
-                    <td>
-
-                      <button
-                        type="button"
-                        className="edit-btn"
-                        onClick={() =>
-                          editProduct(
-                            item
-                          )
-                        }
+                  <td>
+                    {item.status === "Y" ||
+                    item.status === true ||
+                    item.status === "active" ? (
+                      <span
+                        style={{
+                          color: "green",
+                          fontWeight: "bold",
+                        }}
                       >
-
-                        Edit
-
-                      </button>
-
-
-                      <button
-                        type="button"
-                        className="delete-btn"
-                        onClick={() =>
-                          deleteProduct(
-                            item._id
-                          )
-                        }
+                        Active
+                      </span>
+                    ) : (
+                      <span
+                        style={{
+                          color: "red",
+                          fontWeight: "bold",
+                        }}
                       >
+                        Inactive
+                      </span>
+                    )}
+                  </td>
 
-                        Delete
+                  {/* ACTION */}
 
-                      </button>
+                  <td>
+                    <button
+                      type="button"
+                      className="edit-btn"
+                      onClick={() =>
+                        editProduct(item)
+                      }
+                    >
+                      Edit
+                    </button>
 
-                    </td>
-
-                  </tr>
-
-                )
-              )
-
+                    <button
+                      type="button"
+                      className="delete-btn"
+                      onClick={() =>
+                        deleteProduct(item._id)
+                      }
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
             ) : (
-
               <tr>
-
-                <td
-                  colSpan="7"
-                >
-
+                <td colSpan="7">
                   No Products Found
-
                 </td>
-
               </tr>
-
             )}
-
           </tbody>
-
         </table>
-
       </div>
-
     </div>
-
   );
-
 }
 
 export default Product;

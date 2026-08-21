@@ -3,8 +3,9 @@ import "../css/Auth.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function ResetPassword() {
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
+function ResetPassword() {
   const navigate = useNavigate();
 
   const [mobile, setMobile] = useState("");
@@ -20,9 +21,8 @@ function ResetPassword() {
     }
 
     try {
-
       const res = await axios.post(
-        "http://localhost:3003/admin/auth/resetPassword",
+        `${BASE_URL}/admin/auth/resetPassword`,
         {
           mobile,
           password,
@@ -30,36 +30,26 @@ function ResetPassword() {
         }
       );
 
-      alert(res.data.message);
+      alert(res.data.message || "Password reset successfully");
 
       navigate("/login");
-
     } catch (error) {
-
       alert(
         error.response?.data?.message || "Something went wrong"
       );
-
     }
   };
 
-
   return (
-
     <div className="login-container">
-
       <div className="login-box">
-
         <h2>Reset Password</h2>
 
         <p className="forgot-text">
           Enter your mobile number and create new password
         </p>
 
-
         <form onSubmit={Submit}>
-
-
           <input
             type="tel"
             placeholder="Enter Mobile Number"
@@ -69,7 +59,6 @@ function ResetPassword() {
             onChange={(e) => setMobile(e.target.value)}
           />
 
-
           <input
             type="password"
             placeholder="Enter New Password"
@@ -77,7 +66,6 @@ function ResetPassword() {
             required
             onChange={(e) => setPassword(e.target.value)}
           />
-
 
           <input
             type="password"
@@ -87,19 +75,12 @@ function ResetPassword() {
             onChange={(e) => setConfirmPassword(e.target.value)}
           />
 
-
           <button type="submit">
             Reset Password
           </button>
-
-
         </form>
-
-
       </div>
-
     </div>
-
   );
 }
 

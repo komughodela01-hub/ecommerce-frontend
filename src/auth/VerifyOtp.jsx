@@ -3,6 +3,8 @@ import "../css/Auth.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 function VerifyOtp() {
   const navigate = useNavigate();
 
@@ -12,32 +14,33 @@ function VerifyOtp() {
   const Submit = async (e) => {
     e.preventDefault();
 
-
-
     try {
       const res = await axios.post(
-        "http://localhost:3003/admin/auth/forgotVerifyOTP",
+        `${BASE_URL}/admin/auth/forgotVerifyOTP`,
         {
           mobile,
           otp,
         }
       );
 
-      alert(res.data.message);
+      alert(res.data.message || "OTP verified successfully");
 
       navigate("/ResetPassword", {
-        state: { mobile,otp },
+        state: {
+          mobile,
+          otp,
+        },
       });
-
     } catch (error) {
-      alert(error.response?.data?.message || "Invalid OTP");
+      alert(
+        error.response?.data?.message || "Invalid OTP"
+      );
     }
   };
 
   return (
     <div className="login-container">
       <div className="login-box">
-
         <h2>Verify OTP</h2>
 
         <p className="forgot-text">
@@ -45,7 +48,6 @@ function VerifyOtp() {
         </p>
 
         <form onSubmit={Submit}>
-
           <input
             type="tel"
             placeholder="Enter Mobile Number"
@@ -67,9 +69,7 @@ function VerifyOtp() {
           <button type="submit">
             Verify OTP
           </button>
-
         </form>
-
       </div>
     </div>
   );
