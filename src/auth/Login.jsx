@@ -3,7 +3,7 @@ import "../css/Auth.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = process.env.
 
 function Login() {
   const navigate = useNavigate();
